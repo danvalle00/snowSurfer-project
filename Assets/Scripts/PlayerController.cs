@@ -4,9 +4,11 @@ using UnityEngine.InputSystem;
 
 public class PlayerController : MonoBehaviour
 {
-    [SerializeField] float torqueAmount = 1f;
-    [SerializeField] float baseSpeed = 15f;
-    [SerializeField] float boostedSpeed = 20f;
+    [SerializeField] private float torqueAmount = 1f;
+    [SerializeField] private float baseSpeed = 15f;
+    [SerializeField] private float boostedSpeed = 20f;
+    [SerializeField] private ParticleSystem powerupEffect;
+    private int powerupCount;
 
     private InputAction moveAction;
     private Rigidbody2D playerRb;
@@ -17,7 +19,7 @@ public class PlayerController : MonoBehaviour
     // flips
     private float previousRotation;
     private float totalRotation;
-    private int flipCount = 0;
+
 
     // score
     private ScoreManager scoreManager;
@@ -61,10 +63,42 @@ public class PlayerController : MonoBehaviour
         totalRotation += Mathf.DeltaAngle(previousRotation, currentRotation);
         if (totalRotation >= 340f || totalRotation <= -340f) // front and black flips
         {
-            flipCount++;
             totalRotation = 0f;
             scoreManager.AddScore(100);
         }
         previousRotation = currentRotation;
+    }
+
+    public void ApplyPowerup(PowerSO powerUp)
+    {
+        powerupEffect.Play();
+        powerupCount++;
+        if (powerUp.GetPowerUpType == "speed")
+        {
+            baseSpeed += powerUp.GetValueChange;
+            boostedSpeed += powerUp.GetValueChange;
+        }
+        else if (powerUp.GetPowerUpType == "torque")
+        {
+            torqueAmount += powerUp.GetValueChange;
+        }
+    }
+
+    public void DeactivatePowerup(PowerSO powerUp)
+    {
+        powerupCount--;
+        if (powerupCount <= 0)
+        {
+            powerupEffect.Stop();
+        }
+        if (powerUp.GetPowerUpType == "speed")
+        {
+            baseSpeed -= powerUp.GetValueChange;
+            boostedSpeed -= powerUp.GetValueChange;
+        }
+        else if (powerUp.GetPowerUpType == "torque")
+        {
+            torqueAmount -= powerUp.GetValueChange;
+        }
     }
 }
