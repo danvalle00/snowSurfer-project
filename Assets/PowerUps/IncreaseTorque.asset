@@ -12,6 +12,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f60b726946093cd4a91eebbfb84fc31c, type: 3}
   m_Name: IncreaseTorque
   m_EditorClassIdentifier: Assembly-CSharp::PowerSO
-  powerUpTitle: 
-  valueChange: 0
-  powerUpDuration: 0
+  powerUpType: torque
+  valueChange: 10
+  powerUpDuration: 2

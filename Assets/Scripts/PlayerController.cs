@@ -22,14 +22,14 @@ public class PlayerController : MonoBehaviour
 
 
     // score
-    private ScoreManager scoreManager;
+    [SerializeField] private ScoreManager scoreManager;
 
     private void Start()
     {
         moveAction = InputSystem.actions.FindAction("Move");
         playerRb = GetComponent<Rigidbody2D>();
         surfaceEffector = FindFirstObjectByType<SurfaceEffector2D>();
-        scoreManager = FindFirstObjectByType<ScoreManager>();
+
     }
 
     private void Update()
